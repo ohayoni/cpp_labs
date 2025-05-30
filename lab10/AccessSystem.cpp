@@ -339,6 +339,7 @@ public:
             if (user->getName() == name) {
                 user->displayInfo();
                 found = true;
+                break;
             }
         }
         if (!found) {
@@ -476,14 +477,9 @@ void mainMenu(AccessControlSystem<Resource>& system) {
                 break;
             }
             case 2: {
-                try {
-                    Resource resource = createResource();
-                    system.addResource(resource);
-                    std::cout << "Ресурс добавлен\n";
-                }
-                catch (...) {
-                    // Ошибка уже обработана в createResource
-                }
+                Resource resource = createResource();
+                system.addResource(resource);
+                std::cout << "Ресурс добавлен\n";
                 break;
             }
             case 3:
@@ -568,18 +564,16 @@ void mainMenu(AccessControlSystem<Resource>& system) {
 
 int main() {
 
-    setlocale(LC_ALL, "RU");
-
     AccessControlSystem<Resource> system;
 
     try {
-        system.addUser(std::make_unique<Student>("Иванов Иван", 1, "ИТ-101"));
-        system.addUser(std::make_unique<Teacher>("Петров Петр", 2, "Компьютерные науки"));
-        system.addUser(std::make_unique<Administrator>("Сидорова Мария", 3, "Начальник отдела"));
+        system.addUser(std::make_unique<Student>("Андреев Андрей", 1, "Т.РИ20"));
+        system.addUser(std::make_unique<Teacher>("Фельдшеров Александр", 2, "ИВТ"));
+        system.addUser(std::make_unique<Administrator>("Сидорова Мария", 3, "Сис-админ"));
 
         system.addResource(Resource("Лекционная аудитория 101", 1));
         system.addResource(Resource("Компьютерная лаборатория", 2));
-        system.addResource(Resource("Серверная", 3));
+        system.addResource(Resource("Тестовый стенд", 3));
     }
     catch (const std::exception& e) {
         std::cerr << "Ошибка при инициализации тестовых данных: " << e.what() << std::endl;
